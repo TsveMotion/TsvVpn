@@ -10,6 +10,11 @@ const SpeedTest: React.FC = () => {
   const [downloadSpeed, setDownloadSpeed] = useState(0);
   const [uploadSpeed, setUploadSpeed] = useState(0);
   const [ping, setPing] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isTesting) {
@@ -118,26 +123,28 @@ const SpeedTest: React.FC = () => {
                     </div>
 
                     <div className="h-48 w-full">
-                        <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                            <AreaChart data={data}>
-                                <defs>
-                                    <linearGradient id="colorSpeed" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.8}/>
-                                        <stop offset="95%" stopColor="#38bdf8" stopOpacity={0}/>
-                                    </linearGradient>
-                                </defs>
-                                <YAxis hide domain={[0, 1000]} />
-                                <Area 
-                                    type="monotone" 
-                                    dataKey="value" 
-                                    stroke="#38bdf8" 
-                                    strokeWidth={3}
-                                    fillOpacity={1} 
-                                    fill="url(#colorSpeed)" 
-                                    isAnimationActive={false}
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
+                        {mounted && (
+                            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                                <AreaChart data={data}>
+                                    <defs>
+                                        <linearGradient id="colorSpeed" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.8}/>
+                                            <stop offset="95%" stopColor="#38bdf8" stopOpacity={0}/>
+                                        </linearGradient>
+                                    </defs>
+                                    <YAxis hide domain={[0, 1000]} />
+                                    <Area 
+                                        type="monotone" 
+                                        dataKey="value" 
+                                        stroke="#38bdf8" 
+                                        strokeWidth={3}
+                                        fillOpacity={1} 
+                                        fill="url(#colorSpeed)" 
+                                        isAnimationActive={false}
+                                    />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        )}
                     </div>
 
                     <div className="flex justify-between items-center mt-6 pt-6 border-t border-white/10">
